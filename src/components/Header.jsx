@@ -8,7 +8,7 @@ export default function Header({
   onSearch,
   favourites,
   onSelectFavourite,
-  removeFavourite,
+  onToggleFavourite,
 }) {
   const [showModal, setShowModal] = useState(false);
 
@@ -35,7 +35,7 @@ export default function Header({
             <FavouriteModal
               favourites={favourites}
               onSelect={onSelectFavourite}
-              onRemove={removeFavourite}
+              onToggleFavourite={onToggleFavourite}
             />
           )}
         </div>

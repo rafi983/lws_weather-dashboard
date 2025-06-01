@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "./components/Header";
 import WeatherCard from "./components/WeatherCard";
+import { getBackgroundClass } from "./utils/backgroundMapper";
 import "./index.css"; // Tailwind
 
 export default function App() {
@@ -11,9 +12,8 @@ export default function App() {
     const stored = localStorage.getItem("favourites");
     return stored ? JSON.parse(stored) : [];
   });
-  const [background, setBackground] = useState("bg-clear"); // Default background
-
-  const API_KEY = "eb000243c7a20fe3c599d24aaf6477f0"; // Your API key
+  const [background, setBackground] = useState("bg-clear");
+  const API_KEY = "eb000243c7a20fe3c599d24aaf6477f0";
 
   const fetchWeather = async (city) => {
     if (!city) return;
@@ -26,7 +26,7 @@ export default function App() {
       const data = await res.json();
       if (data.cod !== 200) throw new Error(data.message);
       setWeatherData(data);
-      setBackground(getBackground(data.weather[0].main));
+      setBackground(getBackgroundClass(data.weather[0].main));
     } catch (err) {
       setError(err.message);
       setWeatherData(null);
@@ -45,7 +45,7 @@ export default function App() {
       const data = await res.json();
       if (data.cod !== 200) throw new Error(data.message);
       setWeatherData(data);
-      setBackground(getBackground(data.weather[0].main));
+      setBackground(getBackgroundClass(data.weather[0].main));
     } catch (err) {
       setError(err.message);
       setWeatherData(null);
@@ -54,34 +54,11 @@ export default function App() {
     }
   };
 
-  const getBackground = (condition) => {
-    const map = {
-      Clear: "bg-clear",
-      "Few clouds": "bg-few-clouds",
-      Clouds: "bg-clouds",
-      Rain: "bg-rain",
-      "Shower rain": "bg-shower-rain",
-      Snow: "bg-snow",
-      Thunderstorm: "bg-thunderstorm",
-      Drizzle: "bg-rain",
-      Mist: "bg-mist",
-      Fog: "bg-mist",
-      Sunny: "bg-sunny",
-      Winter: "bg-winter",
-    };
-    return map[condition] || "bg-clear";
-  };
-
-  const addFavourite = (city) => {
-    if (!favourites.includes(city)) {
-      const updated = [...favourites, city];
-      setFavourites(updated);
-      localStorage.setItem("favourites", JSON.stringify(updated));
-    }
-  };
-
-  const removeFavourite = (city) => {
-    const updated = favourites.filter((item) => item !== city);
+  const toggleFavourite = (city) => {
+    if (!city) return;
+    const updated = favourites.includes(city)
+      ? favourites.filter((item) => item !== city)
+      : [...favourites, city];
     setFavourites(updated);
     localStorage.setItem("favourites", JSON.stringify(updated));
   };
@@ -95,11 +72,11 @@ export default function App() {
         },
         (error) => {
           console.error("Geolocation error:", error);
-          fetchWeather("Dhaka"); // Fallback
+          fetchWeather("Dhaka"); // fallback
         },
       );
     } else {
-      fetchWeather("Dhaka"); // Fallback
+      fetchWeather("Dhaka"); // fallback
     }
   }, []);
 
@@ -111,7 +88,7 @@ export default function App() {
         onSearch={fetchWeather}
         favourites={favourites}
         onSelectFavourite={fetchWeather}
-        removeFavourite={removeFavourite}
+        onToggleFavourite={toggleFavourite}
       />
       <main className="w-full">
         <section className="w-full">
@@ -120,9 +97,8 @@ export default function App() {
               weather={weatherData}
               loading={loading}
               error={error}
-              onAddFavourite={() =>
-                weatherData && addFavourite(weatherData.name)
-              }
+              onToggleFavourite={toggleFavourite}
+              favourites={favourites}
             />
           </div>
         </section>

@@ -1,6 +1,10 @@
 import React from "react";
 
-export default function FavouriteModal({ favourites, onSelect, onRemove }) {
+export default function FavouriteModal({
+  favourites,
+  onSelect,
+  onToggleFavourite,
+}) {
   return (
     <div className="max-w-xs py-4 bg-white rounded-md border-gray-500 absolute right-0 top-16 text-black shadow-lg">
       <h3 className="text-lg font-bold px-4">Favourite Locations</h3>
@@ -15,7 +19,7 @@ export default function FavouriteModal({ favourites, onSelect, onRemove }) {
             >
               <span onClick={() => onSelect(city)}>{city}</span>
               <button
-                onClick={() => onRemove(city)}
+                onClick={() => onToggleFavourite(city)}
                 className="text-red-500 text-xs"
               >
                 Remove
