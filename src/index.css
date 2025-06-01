@@ -1,1 +1,61 @@
 @import "tailwindcss";
+
+.bg-clear {
+  background-image: url("./assets/backgrounds/clear-sky.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.bg-few-clouds {
+  background-image: url("./assets/backgrounds/few-clouds.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.bg-clouds {
+  background-image: url("./assets/backgrounds/scattered-clouds.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.bg-rain {
+  background-image: url("./assets/backgrounds/rainy-day.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.bg-shower-rain {
+  background-image: url("./assets/backgrounds/shower-rain.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.bg-snow {
+  background-image: url("./assets/backgrounds/snow.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.bg-thunderstorm {
+  background-image: url("./assets/backgrounds/thunderstorm.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.bg-mist {
+  background-image: url("./assets/backgrounds/mist.jpeg");
+  background-size: cover;
+  background-position: center;
+}
+
+.bg-sunny {
+  background-image: url("./assets/backgrounds/sunny.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.bg-winter {
+  background-image: url("./assets/backgrounds/winter.jpg");
+  background-size: cover;
+  background-position: center;
+}
