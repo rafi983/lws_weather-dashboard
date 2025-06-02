@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import Header from "./components/Header";
 import WeatherCard from "./components/WeatherCard";
 import { getBackgroundClass } from "./utils/backgroundMapper";
-import "./index.css"; // Tailwind
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./index.css";
 
 export default function App() {
   const [weatherData, setWeatherData] = useState(null);
@@ -59,8 +61,15 @@ export default function App() {
     const updated = favourites.includes(city)
       ? favourites.filter((item) => item !== city)
       : [...favourites, city];
+
     setFavourites(updated);
     localStorage.setItem("favourites", JSON.stringify(updated));
+
+    if (favourites.includes(city)) {
+      toast.info(`${city} removed from favourites`);
+    } else {
+      toast.success(`${city} added to favourites`);
+    }
   };
 
   useEffect(() => {
@@ -81,28 +90,31 @@ export default function App() {
   }, []);
 
   return (
-    <div
-      className={`bg-body font-[Roboto] text-light bg-no-repeat bg-cover h-screen grid place-items-center ${background}`}
-    >
-      <Header
-        onSearch={fetchWeather}
-        favourites={favourites}
-        onSelectFavourite={fetchWeather}
-        onToggleFavourite={toggleFavourite}
-      />
-      <main className="w-full">
-        <section className="w-full">
-          <div className="container mx-auto px-4">
-            <WeatherCard
-              weather={weatherData}
-              loading={loading}
-              error={error}
-              onToggleFavourite={toggleFavourite}
-              favourites={favourites}
-            />
-          </div>
-        </section>
-      </main>
-    </div>
+    <>
+      <div
+        className={`bg-body font-[Roboto] text-light bg-no-repeat bg-cover h-screen grid place-items-center ${background}`}
+      >
+        <Header
+          onSearch={fetchWeather}
+          favourites={favourites}
+          onSelectFavourite={fetchWeather}
+          onToggleFavourite={toggleFavourite}
+        />
+        <main className="w-full">
+          <section className="w-full">
+            <div className="container mx-auto px-4">
+              <WeatherCard
+                weather={weatherData}
+                loading={loading}
+                error={error}
+                onToggleFavourite={toggleFavourite}
+                favourites={favourites}
+              />
+            </div>
+          </section>
+        </main>
+      </div>
+      <ToastContainer position="top-center" autoClose={2000} theme="colored" />
+    </>
   );
 }
